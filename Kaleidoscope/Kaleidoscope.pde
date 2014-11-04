@@ -5,8 +5,9 @@ float alpha;
 float fill;
 import java.util.HashMap;
 import java.lang.Number;
-
+boolean uniqueCircles = false;
 HashMap hm = new HashMap(); 
+boolean isBlack = false;
 
 
 
@@ -33,10 +34,17 @@ int count =0;
 ArrayList <PShape> shapes;
 FloatList xcenters;
 FloatList ycenters;
+boolean drawing = true;
+
 void draw(){
+  if(drawing){
+    frameRate(60);
+  }else{
+  frameRate(random(0.6) + 0.1);
+  }
   if(boing){
     boing();
-    boing = false;
+    
   }
   fill(0);
   if(mousePressed){
@@ -51,16 +59,42 @@ void draw(){
   for (int j = 0; j<xcenters.size(); j++){
     pushMatrix();
   translate(xcenters.get(j), ycenters.get(j));
+  ///can be more shapes than circles -- would cause error
+  if(uniqueCircles){
+    noStroke();
+fill(random(255),random(255), random(255));
+  shapes.get(j).rotate(random(1.0) - random(1.0));
+  shape(shapes.get(j));
+  popMatrix();
+  float vertices = shapes.get(j).getVertexCount();
+  for(int k = 0; k < vertices; k++){
+    PVector adding = new PVector(random(100)-random(100),random(100)-random(100), 0);
+    PVector newVector = PVector.add(shapes.get(j).getVertex(k),adding);
+    shapes.get(j).setVertex(k, newVector);
+  }
+  }else{
   for(int i =0; i < shapes.size(); i++){
      noStroke();
 fill(random(255),random(255), random(255));
   shapes.get(i).rotate(random(1.0) - random(1.0));
   shape(shapes.get(i));
+//  for(int k = 0; k < vertices; k++){
+//    PVector adding = new PVector(random(100),random(100), 0);
+//    PVector newVector = PVector.add(shapes.get(i).getVertex(k),adding);
+//    shapes.get(i).setVertex(k, newVector);
+//  }
   }
   popMatrix();
+ 
+  
   }
 }
-  
+if(isBlack){
+  background(0);
+}
+
+}  
+
 void mouseReleased(){
   count = 0;
   makeShape(xs, ys);
@@ -76,7 +110,16 @@ void keyPressed(){
     ycenters.append(mouseY);
   }
    if(key == ' '){
+     boing = !boing;
     boing();
+  }
+    if(key == 'z'){
+     drawing = !drawing;
+     print(drawing);
+   
+  }
+  if(key == 'b'){
+   isBlack = !isBlack;
   }
   if(key == 'p'){
      xcenters.remove(xcenters.size()-1);
@@ -91,6 +134,15 @@ void keyPressed(){
     for(int i = 0; i <shapes.size(); i++){
       shapes.get(i).scale(0.9);
     }
+    }
+     if(key =='m'){
+ 
+    }
+     if(key =='n'){
+ 
+    }
+     if(key =='u'){
+       uniqueCircles = !uniqueCircles;
     }
     
 }
@@ -109,7 +161,7 @@ void makeShape(FloatList exes,FloatList eyes){
 public void boing() {
   
   print("wiped");
-    fill(color(0));
+    fill(color(0), 30);
   rect(0,0,width,height);
   print("finished");
 }

@@ -1,5 +1,7 @@
-
+import processing.video.*;
 PImage photo;
+Movie movie;
+
 
 void setup(){
   size(500, 500);
@@ -7,16 +9,17 @@ void setup(){
   background(0);
   photo = loadImage("philadelphia-skyline.jpeg");
   photo.resize(500,500);
+  movie = new Movie(this, "Wunder Cams Video  Weather Underground (83).mp4");
+  movie.loop();
 }
 IntList vals;
 void draw(){
   background(0);
   for ( int i = 0; i <150; i++){
-    PImage temp = photo.get(i * height/150, vals.get(i),height/150, height-vals.get(i));
-    image(temp, i * height/150, vals.get(i));
+    image(movie, i * height/150, vals.get(i));
  
   }
-  if(frameCount%1 ==0){
+  if(frameCount%8 ==0){
     updatesizes();
   }
 }
@@ -25,7 +28,7 @@ void draw(){
     void updatesizes(){
       vals = new IntList();
       for ( int i = 0; i <150; i++){
-        vals.append(int(random(100)+100));
+        vals.append(int(random(377)+100));
       }
     }
         
