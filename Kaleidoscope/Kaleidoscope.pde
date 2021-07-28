@@ -12,22 +12,23 @@ boolean isBlack = false;
 
 
 void setup(){
-  frameRate(60);
-  oscP5 = new OscP5(this,12000);
+  frameRate(12);
+  //oscP5 = new OscP5(this,12000);
   
   size(displayWidth, displayHeight, P2D);
   background(255);
   xs = new FloatList();
   ys = new FloatList();
-   xcenters = new FloatList();
+  xcenters = new FloatList();
   ycenters = new FloatList();
   shapes = new ArrayList<PShape>();
   fill = color(255);
   alpha = 255;
-  
- 
+
 }
-boolean boing;
+
+
+boolean boingGo;
 FloatList xs; 
 FloatList ys;
 int count =0;
@@ -37,12 +38,8 @@ FloatList ycenters;
 boolean drawing = true;
 
 void draw(){
-  if(drawing){
-    frameRate(60);
-  }else{
-  frameRate(random(0.6) + 0.1);
-  }
-  if(boing){
+saveFrame("#######.png");
+  if(boingGo){
     boing();
     
   }
@@ -53,8 +50,8 @@ void draw(){
   }
   count = xs.size();
   if(count>1){
-    stroke(0);
-    line(xs.get(count-1), ys.get(count-1), xs.get(count-2), ys.get(count-2));
+    //stroke(0);
+    //line(xs.get(count-1), ys.get(count-1), xs.get(count-2), ys.get(count-2));
   }
   for (int j = 0; j<xcenters.size(); j++){
     pushMatrix();
@@ -110,14 +107,10 @@ void keyPressed(){
     ycenters.append(mouseY);
   }
    if(key == ' '){
-     boing = !boing;
+     boingGo = !boingGo;
     boing();
   }
-    if(key == 'z'){
-     drawing = !drawing;
-     print(drawing);
-   
-  }
+
   if(key == 'b'){
    isBlack = !isBlack;
   }
@@ -166,15 +159,15 @@ public void boing() {
   print("finished");
 }
 
-void oscEvent(OscMessage theOscMessage){
-print(theOscMessage);
-  boing = true;
-  alpha = theOscMessage.get(0).floatValue();
-  alpha = map(alpha, 0.15, 0.5, 180, 255);
-  fill = theOscMessage.get(1).intValue();
-  fill = map(fill, 48, 100, 255, 150);
-  print(fill);
+//void oscEvent(OscMessage theOscMessage){
+//print(theOscMessage);
+//  boing = true;
+//  alpha = theOscMessage.get(0).floatValue();
+//  alpha = map(alpha, 0.15, 0.5, 180, 255);
+//  fill = theOscMessage.get(1).intValue();
+//  fill = map(fill, 48, 100, 255, 150);
+//  print(fill);
 
-}
+//}
   
   
